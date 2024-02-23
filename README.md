@@ -7,7 +7,7 @@ The API is hosted on the following link  https://bite-api.onrender.com
 **GET /getall**: Endpoint for getting all records in the database.
 
 
-**POST /identity**: Endpoint for identifying a customer.
+**POST /identity**: Endpoint for identifying a customer(As mentioned in the task).
 
 **JSON Body** :-
 ```bash
