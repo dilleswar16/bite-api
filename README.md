@@ -3,6 +3,10 @@
 The API is hosted on the following link  https://bite-api.onrender.com
 
 ## API Endpoints
+
+**GET /getall**: Endpoint for getting all records in the database.
+
+
 **POST /identity**: Endpoint for identifying a customer.
 
 **JSON Body** :-
@@ -12,8 +16,6 @@ The API is hosted on the following link  https://bite-api.onrender.com
 "phoneNumber": "xxxxxx"
 }
 ```
-
-**GET /getall**: Endpoint for getting all records in the database.
 
 
 ## Installation and Usage
