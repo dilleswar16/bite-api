@@ -15,6 +15,18 @@ const {
 const app = express();
 app.use(bodyParser.json());
 
+app.get('/getall', async (req, res) => {
+    try {
+        const allData = await Contact.findAll();
+
+      
+        res.json(allData);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+
 app.post('/identity', async (req, res) => {
     const { email, phoneNumber: phonenumber } = req.body;
 
@@ -36,7 +48,7 @@ app.post('/identity', async (req, res) => {
 
         const primaryEmail = await findPrimaryContactByEmail(email);
 
-        // Rest of the logic...
+        
         if (alreadyExists) {
             // Handle existing contact
             if (alreadyExists.linkprecedence === 'primary') {
@@ -178,7 +190,7 @@ app.post('/identity', async (req, res) => {
                     where: { linkedId: primaryCommonEmail.id },
                     attributes: ['email'],
                     raw: true
-                })).map(({ email }) => email), primaryCommonEmail.email])];
+                })).map(({ email }) => email), primaryCommonEmail.email])].filter(res => res !== "" && res !== null);
 
                 response.phonenumbers = [...new Set([...(await Contact.findAll({
                     where: { linkedId: primaryCommonEmail.id },
@@ -188,7 +200,7 @@ app.post('/identity', async (req, res) => {
                     where: { id: primaryCommonEmail.id },
                     attributes: ['phonenumber'],
                     raw: true
-                })).map(({ phonenumber }) => phonenumber)])];
+                })).map(({ phonenumber }) => phonenumber)])].filter(res => res !== "" && res !== null);
 
                 response.secondaryContactIds = [...new Set([...(await Contact.findAll({
                     where: { linkedId: primaryCommonEmail.id },
@@ -242,13 +254,22 @@ app.post('/identity', async (req, res) => {
             } else {
                 console.log("243")
                 console.log(phonenumber);
-                const newPhonenumber = phonenumber === null ? "" : phonenumber;
-                console.log(newPhonenumber);
-                const obj = await Contact.create({ email, newPhonenumber , linkprecedence: 'primary' });
-                response.primaryContactId = obj.id;
-                response.emails = [obj.email];
-                response.phonenumbers = [obj.phonenumber].filter((res) => { return res !== "" });
-                response.secondaryContactIds = [];
+                if (phonenumber && email) {
+                    console.log("If");
+                    const obj = await Contact.create({ email, phonenumber , linkprecedence: 'primary' });
+                    response.primaryContactId = obj.id;
+                    response.emails = [obj.email].filter(res => res !== "" && res !== null);
+                    response.phonenumbers = [obj.phonenumber].filter(res => res !== "" && res !== null);
+                    response.secondaryContactIds = [];
+
+                }
+
+                else {
+
+                   res.json("New Contacts can not be null");
+                   return;
+
+                }
             }
         }
 
