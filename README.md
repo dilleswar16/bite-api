@@ -1,10 +1,21 @@
-# bite-api
-
-##API Endpoints
-POST /identify: Endpoint for identifying a customer.
-GET /getall: Endpoint for getting all records in the database.
+## bite-api
 
 The API is hosted on the following link  https://bite-api.onrender.com
+
+## API Endpoints
+**POST /identity**: Endpoint for identifying a customer.
+
+**JSON Body** :-
+```bash
+{
+"email":"xxxxxxx",
+"phoneNumber": "xxxxxx"
+}
+```
+
+**GET /getall**: Endpoint for getting all records in the database.
+
+
 ## Installation and Usage
 
 1. Clone the repository to your local machine using the following command:
