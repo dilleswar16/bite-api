@@ -27,7 +27,7 @@ app.get('/getall', async (req, res) => {
 });
 
 
-app.post('/identity', async (req, res) => {
+app.post('/identify', async (req, res) => {
     const { email, phoneNumber: phonenumber } = req.body;
 
     try {
